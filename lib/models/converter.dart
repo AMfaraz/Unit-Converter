@@ -1,11 +1,10 @@
-import 'dart:ffi';
 
 import 'package:units_converter/units_converter.dart';
 
 class Converter {
   var input = LENGTH.inches;
   var output = LENGTH.inches;
-
+  
   //input
   void _selectLengthInputType(String value) {
   switch (value.toLowerCase()) {

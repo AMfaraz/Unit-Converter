@@ -22,11 +22,11 @@ class _ConvoScreenState extends State<ConvoScreen> {
   String categoryValue = category[0];
 
   //from
-  List<String> inputList = lengthList;
+  List<String> inputList = categorylists["Length"]!;
   String inputType = lengthList[0];
 
   //to
-  List<String> outputList = lengthList;
+  List<String> outputList = categorylists["Length"]!;
   String outputType = lengthList[0];
 
   String result="Output";
@@ -34,6 +34,8 @@ class _ConvoScreenState extends State<ConvoScreen> {
   void categoryChange(String? value) {
     setState(() {
       categoryValue = value!;
+      inputList=categorylists[value]!;
+      outputList=categorylists[value]!;
     });
   }
 
