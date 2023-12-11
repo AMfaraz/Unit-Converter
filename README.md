@@ -14,11 +14,11 @@ For FrontEnd I have used Flutter framework.
 
 #Contributing
 
-  Fork the repository
-  Create a new branch: git checkout -b feature
-  Make changes and commit: git commit -m 'Add new feature'
-  Push to the branch: git push origin feature
-  Submit a pull request
+  Fork the repository.
+  Create a new branch: git checkout -b feature.
+  Make changes and commit: git commit -m 'Add new feature'.
+  Push to the branch: git push origin feature.
+  Submit a pull request.
 
 A few resources to get you started if this is your first Flutter project:
 
