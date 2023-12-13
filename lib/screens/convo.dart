@@ -35,7 +35,9 @@ class _ConvoScreenState extends State<ConvoScreen> {
     setState(() {
       categoryValue = value!;
       inputList=categorylists[value]!;
+      inputType=categorylists[value]![0];
       outputList=categorylists[value]!;
+      outputType=categorylists[value]![0];
     });
   }
 
@@ -92,6 +94,7 @@ class _ConvoScreenState extends State<ConvoScreen> {
                 //from
                 DropDownSelection(
                     value: inputType, valueList: inputList, func: inputChange),
+
                 //to
                 DropDownSelection(
                     value: outputType,

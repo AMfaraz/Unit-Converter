@@ -2,8 +2,9 @@
 import 'package:units_converter/units_converter.dart';
 
 class Converter {
-  var input = LENGTH.inches;
-  var output = LENGTH.inches;
+  var err="";
+  dynamic input = LENGTH.inches;
+  dynamic output = LENGTH.inches;
   
   //input
   void _selectLengthInputType(String value) {
@@ -32,9 +33,39 @@ class Converter {
     case "kilometer":
       input = LENGTH.kilometers;
       break;
+    case "gram":
+      input = MASS.grams;
+      break;
+    case "ounce":
+      input = MASS.ounces;
+      break;
+    case "pound":
+      input = MASS.pounds;
+      break;
+    case "kilogram":
+      input = MASS.kilograms;
+      break;
+    case "ton":
+      input = MASS.tons;
+      break;
+    case "carat":
+      input = MASS.carats;
+      break;
+    case "liter":
+      input = VOLUME.liters;
+      break;
+    case "mililiter":
+      input = VOLUME.milliliters;
+      break;
+    case "imperialgallon":
+      input = VOLUME.imperialGallons;
+      break;
+    case "imperialpint":
+      input = VOLUME.imperialPints;
+      break;
     default:
-      print("Invalid unit selected.");
-      break; // This break is not strictly necessary, but it's a good practice to include it for clarity.
+      err = "Invalid unit selected.";
+      break;
   }
 }
 
@@ -42,40 +73,75 @@ class Converter {
   void _selectLengthOutputType(String value) {
   switch (value.toLowerCase()) {
     case "inch":
-      output = LENGTH.inches;
+      input = LENGTH.inches;
       break;
     case "milimeter":
-      output = LENGTH.millimeters;
+      input = LENGTH.millimeters;
       break;
     case "foot":
-      output = LENGTH.feet;
+      input = LENGTH.feet;
       break;
     case "centimeter":
-      output = LENGTH.centimeters;
+      input = LENGTH.centimeters;
       break;
     case "yard":
-      output = LENGTH.yards;
+      input = LENGTH.yards;
       break;
     case "meter":
-      output = LENGTH.meters;
+      input = LENGTH.meters;
       break;
     case "mile":
-      output = LENGTH.miles;
+      input = LENGTH.miles;
       break;
     case "kilometer":
-      output = LENGTH.kilometers;
+      input = LENGTH.kilometers;
+      break;
+    case "gram":
+      input = MASS.grams;
+      break;
+    case "ounce":
+      input = MASS.ounces;
+      break;
+    case "pound":
+      input = MASS.pounds;
+      break;
+    case "kilogram":
+      input = MASS.kilograms;
+      break;
+    case "ton":
+      input = MASS.tons;
+      break;
+    case "carat":
+      input = MASS.carats;
+      break;
+    case "liter":
+      input = VOLUME.liters;
+      break;
+    case "mililiter":
+      input = VOLUME.milliliters;
+      break;
+    case "imperialgallon":
+      input = VOLUME.imperialGallons;
+      break;
+    case "imperialpint":
+      input = VOLUME.imperialPints;
       break;
     default:
-      print("Invalid unit selected.");
-      return;
+      err = "Invalid unit selected.";
+      break;
   }
 }
 
   String convert(String inputType,String outpuType,String value){
+    if(err=="Invalid unit selected"){
+      return err;
+    }
+
     _selectLengthInputType(inputType);
     _selectLengthOutputType(outpuType);
     double newvalue=double.parse(value);
 
     return newvalue.convertFromTo(input, output)!.toStringAsFixed(3);
+
   }
 }
