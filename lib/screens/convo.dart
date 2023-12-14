@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../widget/drop_down_selection.dart';
 import '../utils/unit_lists.dart';
 import '../utils/colors.dart';
 import '../models/converter.dart';
+import '../utils/utils_function.dart';
 
 class ConvoScreen extends StatefulWidget {
   ConvoScreen({super.key});
@@ -12,11 +14,12 @@ class ConvoScreen extends StatefulWidget {
 }
 
 class _ConvoScreenState extends State<ConvoScreen> {
-  
-  final Converter _converter=Converter();
- 
+  //imagefile
+  XFile? imageFile;
 
-  final TextEditingController _inputController=TextEditingController();
+  final Converter _converter = Converter();
+
+  final TextEditingController _inputController = TextEditingController();
 
   List<String> categoryList = category;
   String categoryValue = category[0];
@@ -29,15 +32,15 @@ class _ConvoScreenState extends State<ConvoScreen> {
   List<String> outputList = categorylists["Length"]!;
   String outputType = lengthList[0];
 
-  String result="Output";
+  String result = "Output";
 
   void categoryChange(String? value) {
     setState(() {
       categoryValue = value!;
-      inputList=categorylists[value]!;
-      inputType=categorylists[value]![0];
-      outputList=categorylists[value]!;
-      outputType=categorylists[value]![0];
+      inputList = categorylists[value]!;
+      inputType = categorylists[value]![0];
+      outputList = categorylists[value]!;
+      outputType = categorylists[value]![0];
     });
   }
 
@@ -53,16 +56,42 @@ class _ConvoScreenState extends State<ConvoScreen> {
     });
   }
 
+  //camera scanner
+  void selectImage() async {
+    XFile? imageFile= await getImage(ImageSource.camera);
+    if(imageFile!=null){
+      imageFile=await cropImage(imageFile);
+      String value=await getRecognisedText(imageFile!);
+      setState(() {
+        _inputController.text=value;
+      });
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Unit Conversion")),
+      
+      //image selection
+      floatingActionButton: Container(
+        decoration: const BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(30))
+        ),
+        child: IconButton(
+          onPressed: selectImage,
+          icon: const Icon(Icons.camera,size: 35,color: Colors.white70),
+        ),
+      ),
+
+
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
             TextFormField(
               decoration: const InputDecoration(
                 labelText: "Input",
@@ -74,18 +103,18 @@ class _ConvoScreenState extends State<ConvoScreen> {
             //result
             Container(
               margin: const EdgeInsets.all(20),
-              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               decoration: BoxDecoration(
-              color: mainColor,
-              borderRadius: const BorderRadius.all(Radius.circular(17),),
-              border: Border.all(
-                color: Colors.grey,
-                width: 2
-              )
+                  color: mainColor,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(17),
+                  ),
+                  border: Border.all(color: Colors.grey, width: 2)),
+              child: Text(
+                result,
+                style: const TextStyle(color: backgroudColor, fontSize: 15),
               ),
-              child: Text(result,style: const TextStyle(color: backgroudColor,fontSize: 15),),
             ),
-
 
             //from/to
             Row(
@@ -113,11 +142,13 @@ class _ConvoScreenState extends State<ConvoScreen> {
                 margin: const EdgeInsets.all(20),
                 child: ElevatedButton(
                     onPressed: () {
-                      final String answer=_converter.convert(inputType, outputType, _inputController.text);
+                      final String answer = _converter.convert(
+                          inputType, outputType, _inputController.text);
                       setState(() {
-                        result=answer;
+                        result = answer;
                       });
-                    }, child: const Text("Convert")))
+                    },
+                    child: const Text("Convert")))
           ],
         ),
       ),
