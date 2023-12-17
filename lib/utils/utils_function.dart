@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 // import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:unit_convo/utils/unit_lists.dart';
 
 Future<XFile?> getImage(ImageSource source) async {
   XFile? imageFile;
@@ -15,7 +16,6 @@ Future<XFile?> getImage(ImageSource source) async {
   }
   catch(e){
     imageFile=null;
-    print("error occured");
   }
   return imageFile;
 
@@ -56,7 +56,24 @@ Future<XFile?> cropImage(XFile imgFile) async {
     }
     else{
       cropedImage=null;
-      print("error Occured");
       return null;
     }
 }
+
+//for separating unit and its value
+Map<String,String> regexing(String capturedValue){
+  Map<String,String> mapping={};
+  RegExp pattern = RegExp(r'(\d+)([a-zA-Z]+)');
+  Match? match=pattern.firstMatch(capturedValue);
+  
+  if(match!=null){
+    String valuePart=match.group(1)!;
+    String unitPart=match.group(2)!;
+    mapping["value"]=valuePart;
+    mapping["unit"]=unitPart;
+  }
+
+  return mapping;
+
+}
+

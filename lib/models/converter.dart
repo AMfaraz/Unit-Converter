@@ -70,61 +70,61 @@ class Converter {
 }
 
   //output
-  void _selectLengthOutputType(String value) {
+ void _selectLengthOutputType(String value) {
   switch (value.toLowerCase()) {
     case "inch":
-      input = LENGTH.inches;
+      output = LENGTH.inches;
       break;
     case "milimeter":
-      input = LENGTH.millimeters;
+      output = LENGTH.millimeters;
       break;
     case "foot":
-      input = LENGTH.feet;
+      output = LENGTH.feet;
       break;
     case "centimeter":
-      input = LENGTH.centimeters;
+      output = LENGTH.centimeters;
       break;
     case "yard":
-      input = LENGTH.yards;
+      output = LENGTH.yards;
       break;
     case "meter":
-      input = LENGTH.meters;
+      output = LENGTH.meters;
       break;
     case "mile":
-      input = LENGTH.miles;
+      output = LENGTH.miles;
       break;
     case "kilometer":
-      input = LENGTH.kilometers;
+      output = LENGTH.kilometers;
       break;
     case "gram":
-      input = MASS.grams;
+      output = MASS.grams;
       break;
     case "ounce":
-      input = MASS.ounces;
+      output = MASS.ounces;
       break;
     case "pound":
-      input = MASS.pounds;
+      output = MASS.pounds;
       break;
     case "kilogram":
-      input = MASS.kilograms;
+      output = MASS.kilograms;
       break;
     case "ton":
-      input = MASS.tons;
+      output = MASS.tons;
       break;
     case "carat":
-      input = MASS.carats;
+      output = MASS.carats;
       break;
     case "liter":
-      input = VOLUME.liters;
+      output = VOLUME.liters;
       break;
     case "mililiter":
-      input = VOLUME.milliliters;
+      output = VOLUME.milliliters;
       break;
     case "imperialgallon":
-      input = VOLUME.imperialGallons;
+      output = VOLUME.imperialGallons;
       break;
     case "imperialpint":
-      input = VOLUME.imperialPints;
+      output = VOLUME.imperialPints;
       break;
     default:
       err = "Invalid unit selected.";
