@@ -66,13 +66,36 @@ class _ConvoScreenState extends State<ConvoScreen> {
       // setState(() {
       //   _inputController.text=value;
       // });
+      Map<String,String> regexed=regexing(value);
+
+      if(regexed["value"]==null || !shortToLong.containsKey(regexed["unit"]) ){
+           showDialog(context: context,builder: (BuildContext context) {
+        return AlertDialog(
+          title:  const Text("Error"),
+          content:  const Text("No meausrement found for conversion"),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Disable'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),],
+        );
+      },);
+      }
+
+      else{
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => PicConvertScreen(
                     img: imageFile!,
-                    value: regexing(value),
-                  )));
+                    value: regexed["value"]!,
+                    unit: regexed["unit"]!,
+                  )));}
     }
   }
 
@@ -133,6 +156,10 @@ class _ConvoScreenState extends State<ConvoScreen> {
                       valueList: inputList,
                       func: inputChange),
 
+                  const SizedBox(
+                    width: 20,
+                  ),
+
                   //to
                   DropDownSelection(
                       value: outputType,
@@ -140,16 +167,25 @@ class _ConvoScreenState extends State<ConvoScreen> {
                       func: outputChange),
                 ],
               ),
-
+              const SizedBox(
+                height: 20,
+              ),
               //category
               DropDownSelection(
                   value: categoryValue,
                   valueList: categoryList,
                   func: categoryChange),
 
+              const SizedBox(
+                height: 20,
+              ),
+
               Container(
                 margin: const EdgeInsets.all(20),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: mainColor,
+                  ),
                   onPressed: () {
                     final String answer = _converter.convert(
                         inputType, outputType, _inputController.text);
@@ -157,7 +193,7 @@ class _ConvoScreenState extends State<ConvoScreen> {
                       result = answer;
                     });
                   },
-                  child: const Text("Convert"),
+                  child: const Text("Convert",style:TextStyle(color: Colors.white),),
                 ),
               )
             ],

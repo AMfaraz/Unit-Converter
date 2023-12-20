@@ -10,9 +10,11 @@ import '../models/converter.dart';
 
 class PicConvertScreen extends StatefulWidget {
   final XFile img;
-  final Map<String, String> value;
+  String value;
+  String unit;
+  // final Map<String, String> value;
 
-  PicConvertScreen({super.key, required this.img, required this.value});
+  PicConvertScreen({super.key, required this.img, required this.value,required this.unit});
 
   @override
   State<PicConvertScreen> createState() => _PicConvertScreenState();
@@ -39,17 +41,13 @@ class _PicConvertScreenState extends State<PicConvertScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    String unit = widget.value["unit"]!;
-    String value = widget.value["value"]!;
+    inputList = categorylists[shortToLong[widget.unit]![1]]!;
+    inputType = shortToLong[widget.unit]![0];
 
-    inputList = categorylists[shortToLong[unit]![1]]!;
-    inputType = shortToLong[unit]![0];
+    outputList = categorylists[shortToLong[widget.unit]![1]]!;
+    outputType = shortToLong[widget.unit]![0];
 
-    outputList = categorylists[shortToLong[unit]![1]]!;
-    outputType = shortToLong[unit]![0];
-
-    _inputController.text = value;
+    _inputController.text = widget.value;
     super.didChangeDependencies();
   }
 
