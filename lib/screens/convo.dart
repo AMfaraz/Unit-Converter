@@ -66,36 +66,40 @@ class _ConvoScreenState extends State<ConvoScreen> {
       // setState(() {
       //   _inputController.text=value;
       // });
-      Map<String,String> regexed=regexing(value);
+      Map<String, String> regexed = regexing(value);
 
-      if(regexed["value"]==null || !shortToLong.containsKey(regexed["unit"]) ){
-           showDialog(context: context,builder: (BuildContext context) {
-        return AlertDialog(
-          title:  const Text("Error"),
-          content:  const Text("No meausrement found for conversion"),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Disable'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),],
+      if (regexed["value"] == null ||
+          !shortToLong.containsKey(regexed["unit"])) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Error"),
+              content: const Text("No meausrement found for conversion"),
+              actions: <Widget>[
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  child: const Text('Disable'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
         );
-      },);
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PicConvertScreen(
+                      img: imageFile!,
+                      value: regexed["value"]!,
+                      unit: regexed["unit"]!,
+                    )));
       }
-
-      else{
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PicConvertScreen(
-                    img: imageFile!,
-                    value: regexed["value"]!,
-                    unit: regexed["unit"]!,
-                  )));}
     }
   }
 
@@ -121,55 +125,68 @@ class _ConvoScreenState extends State<ConvoScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: "Input",
-                  hintText: "Input the value",
-                ),
-                controller: _inputController,
-              ),
 
-              //result
-              Container(
-                margin: const EdgeInsets.all(20),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                decoration: BoxDecoration(
-                    color: mainColor,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(17),
-                    ),
-                    border: Border.all(color: Colors.grey, width: 2)),
-                child: Text(
-                  result,
-                  style: const TextStyle(color: backgroudColor, fontSize: 15),
-                ),
-              ),
-
-              //from/to
+              //input
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  //from
-                  DropDownSelection(
-                      value: inputType,
-                      valueList: inputList,
-                      func: inputChange),
-
-                  const SizedBox(
-                    width: 20,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width*0.6,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: "Input",
+                        hintText: "Input the value",
+                      ),
+                      controller: _inputController,
+                    ),
                   ),
 
-                  //to
-                  DropDownSelection(
-                      value: outputType,
-                      valueList: outputList,
-                      func: outputChange),
+                  //from
+              DropDownSelection(
+                  value: inputType, valueList: inputList, func: inputChange),
                 ],
               ),
+
               const SizedBox(
                 height: 20,
               ),
+              
+
+              //output
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //result
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width*0.6,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: mainColor,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(17),
+                        ),
+                        border: Border.all(color: Colors.grey, width: 2)),
+                    child: Text(
+                      result,
+                      style: const TextStyle(color: backgroudColor, fontSize: 15),
+                    ),
+                  ),
+
+                   //to
+              DropDownSelection(
+                  value: outputType, valueList: outputList, func: outputChange),
+                ],
+              ),
+            
+
+             
+
+              const SizedBox(
+                height: 20,
+              ),
+              //category
+
               //category
               DropDownSelection(
                   value: categoryValue,
@@ -181,7 +198,6 @@ class _ConvoScreenState extends State<ConvoScreen> {
               ),
 
               Container(
-                margin: const EdgeInsets.all(20),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: mainColor,
@@ -193,7 +209,10 @@ class _ConvoScreenState extends State<ConvoScreen> {
                       result = answer;
                     });
                   },
-                  child: const Text("Convert",style:TextStyle(color: Colors.white),),
+                  child: const Text(
+                    "Convert",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               )
             ],

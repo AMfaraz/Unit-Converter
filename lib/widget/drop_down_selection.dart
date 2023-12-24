@@ -17,13 +17,13 @@ class DropDownSelection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 15),
       decoration: BoxDecoration(
-        color: buttonColor,
+        color: Colors.grey[350],
         borderRadius: BorderRadius.circular(20),
       ),
       child: DropdownButton(
         elevation: 5,
-        borderRadius: BorderRadius.circular(30),
-        style: const TextStyle(color: backgroudColor, fontSize: 15),
+        borderRadius: BorderRadius.circular(15),
+        style: const TextStyle(color: Colors.black, fontSize: 15),
         dropdownColor: buttonColor,
         value: value,
         items: valueList
